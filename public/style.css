@@ -1,0 +1,209 @@
+/* ---------------- Body/Layout ---------------- */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f4f5f7;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Main tracker container */
+.app {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  margin: 40px 0;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1, h2 {
+  text-align: center;
+  color: #1f2937;
+}
+
+/* ---------------- Form & Inputs ---------------- */
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+button:hover { background-color: #1d4ed8; }
+
+/* ---------------- Habit Cards ---------------- */
+.habit-card {
+  background: #f9fafb;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;  /* stack top-row + details vertically */
+}
+
+/* Top row holds title on left, actions on right */
+.habit-card .top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* push buttons to far right */
+  gap: 10px;
+}
+
+/* Habit name styling */
+.habit-title {
+  font-weight: 500;
+  color: #111827;
+  flex: 1;              /* let text take available space */
+  min-width: 0;
+}
+
+/* Action buttons on right side */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+button.done { background-color: #16a34a; }
+button.delete-btn {
+  background-color: #ef4444;
+}
+button.delete-btn:hover { background-color: #dc2626; }
+
+/* Details appear on next line */
+.details {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: #f3f4f6;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+/* ---------------- Circular Progress Rings ---------------- */
+.progress-rings-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.progress-item {
+  text-align: center;
+}
+
+.progress-label {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.progress-text {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* ---------------- Congrats Popup ---------------- */
+.congrats-tab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4ade80;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  font-weight: 600;
+  animation: pop-in 0.4s ease;
+  z-index: 9999;
+}
+@keyframes pop-in {
+  0% { transform: translateY(40px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+/* ---------------- Login / Register ---------------- */
+.login-section {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 400px;
+  margin: 60px auto;
+  text-align: center;
+}
+.login-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.login-section input,
+.login-section button {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.login-section button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+.login-section button:hover {
+  background-color: #1d4ed8;
+}
+
+/* ---------------- Home Page Buttons ---------------- */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.button-group button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.button-group button.secondary { background-color: #f59e0b; }
+.button-group button:hover { opacity: 0.9; }
+.welcome-text {
+  text-align: center;
+  color: #2563eb;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
