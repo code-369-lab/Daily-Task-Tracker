@@ -41,23 +41,23 @@ Track daily tasks, mark them complete, add notes, and watch your progress circle
 ## 🧠 Project Structure
 
 habit-tracker/
+├── server.js           -> Backend using Express (routes & APIs)
+├── package.json        -> Node setup and dependencies
 │
-├── server.js # Node.js + Express backend (API routes, server setup)
-├── package.json # Project metadata, scripts, and dependencies
+├── data/
+│   └── users.json      -> Stores users and their habits
 │
-├── data/ # Folder for storing user data
-│ └── users.json # JSON file holding users and their habit info
+├── public/
+│   ├── home.html       -> Front page (Login / Register buttons)
+│   ├── login.html      -> Login page
+│   ├── register.html   -> Registration page
+│   ├── index.html      -> Main dashboard
+│   ├── style.css       -> All styling
+│   └── script.js       -> JavaScript logic for UI & features
 │
-├── public/ # Frontend (served by Express)
-│ ├── home.html # Landing page with Login/Register options
-│ ├── login.html # Login page for existing users
-│ ├── register.html # Registration page for new users
-│ ├── index.html # Main dashboard (view/add habits)
-│ ├── style.css # Styling for all pages
-│ └── script.js # Frontend logic (fetch APIs, update UI, habit rings, etc.)
-│
-└── README.md # Project overview, setup guide, and usage instructions
+└── README.md           -> Project documentation
 
+---
 
 ## 🧩 Installation (Local Setup)
 
