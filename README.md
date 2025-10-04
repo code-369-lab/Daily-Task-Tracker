@@ -39,6 +39,7 @@ Track daily tasks, mark them complete, add notes, and watch your progress circle
 ---
 
 ## 🧠 Project Structure
+
 habit-tracker/
 ├── data/
 │ └── users.json
@@ -52,7 +53,6 @@ habit-tracker/
 ├── server.js # Express server
 ├── package.json
 └── README.md
-
 ---
 
 ## 🧩 Installation (Local Setup)
