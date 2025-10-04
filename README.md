@@ -10,7 +10,6 @@ Track daily tasks, mark them complete, add notes, and watch your progress circle
 ✅ **Deployed on Render:**  
 👉 https://daily-task-tracker-1-4nnm.onrender.com
 
-(Replace with your actual Render URL.)
 
 ---
 
