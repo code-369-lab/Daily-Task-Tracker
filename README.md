@@ -70,3 +70,8 @@ npm install
 mkdir data
 echo "[]" > data/users.json
 npm start
+```
+## Authors
+
+**Pallavi U** and 
+**Lalitha N**
