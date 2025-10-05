@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌱 Daily Habit Tracker</title>
+<style>
+/* === GLOBAL === */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  margin: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      background: linear-gradient(120deg, #6ee7b7, #93c5fd, #a5b4fc, #fbcfe8);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
+      overflow-x: hidden;
+}
+@keyframes gradientShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* === FLOATING WAVES BACKGROUND === */
+.wave{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  width:200%;height:150px;
+  background:rgba(255,255,255,0.25);
+  border-radius:43%;
+  animation:waveMove 8s linear infinite;
+  transform:translateX(-25%);
+  z-index:0;
+  filter:blur(20px);
+}
+.wave:nth-child(1){bottom:0;animation-duration:14s;opacity:.6}
+.wave:nth-child(2){bottom:20px;animation-duration:10s;opacity:.4;background:rgba(255,255,255,0.35);}
+.wave:nth-child(3){bottom:40px;animation-duration:18s;opacity:.3;background:rgba(255,255,255,0.2);}
+@keyframes waveMove{
+  0%{transform:translateX(-25%)}
+  50%{transform:translateX(0%)}
+  100%{transform:translateX(-25%)}
+}
+
+/* === MAIN APP CARD === */
+#app{
+  position:relative;
+  z-index:2;
+  background:linear-gradient(137deg,#84ce94,#e5e7eb,#c26363);
+  backdrop-filter:blur(14px);
+  border-radius:24px;
+  padding:28px;
+  width:95%;max-width:850px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+  animation:fadeUp .9s ease;
+}
+@keyframes fadeUp{
+  0%{opacity:0;transform:translateY(40px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+h1{color:#1f2937;font-size:22px;margin-bottom:4px}
+h2{color:#374151;font-size:18px;margin:14px 0 8px}
+
+/* === INPUTS / BUTTONS === */
+input,button{font-family:inherit;border-radius:10px;outline:none;transition:.3s}
+input[type=text],input[type=password]{
+  width:100%;padding:10px 12px;border:1px solid #e5e7eb;margin-bottom:10px;
+  background:rgba(255,255,255,0.85);
+}
+input:focus{border-color:#60a5fa;box-shadow:0 0 6px #93c5fd}
+button{
+  background:linear-gradient(135deg,#3b82f6,#2563eb);
+  color:white;padding:10px 14px;border:none;font-weight:600;cursor:pointer;
+}
+button:hover{transform:scale(1.05);box-shadow:0 4px 15px rgba(37,99,235,.4)}
+button.secondary{background:linear-gradient(135deg,#22c55e,#16a34a)}
+button.danger{background:linear-gradient(135deg,#ef4444,#dc2626)}
+
+/* === LOGIN PAGE === */
+#loginPage{text-align:center;margin:20px auto;animation:fadeIn 1s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.intro-text {
+  margin: 10px auto 18px;
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+  animation: fadeSlide 1.2s ease both;
+}
+.features ul {list-style:none;padding:0;margin-bottom:18px;}
+.features li {color:#1f2937;font-size:14px;margin:4px 0;animation:fadeSlide 1.2s ;text-align:centre;}
+@keyframes fadeSlide {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+.button-group{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+
+/* === INFO SECTION === */
+#infoSection {
+  margin-top: 40px;
+  background: linear-gradient(135deg, #a78bfa, #93c5fd);
+  color: #1f2937;
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  animation: fadeIn 1.2s ease;
+  transition: all .8s ease;
+}
+#infoSection h2 {color:#111827;margin-bottom:10px;font-size:20px;}
+#infoSection p {font-size:15px;margin-bottom:16px;line-height:1.6;}
+.info-points {
+  display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;
+}
+.point {
+  background: rgba(255,255,255,0.4);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform .3s ease, background .3s ease;
+}
+.point:hover {transform: scale(1.05);background: rgba(255,255,255,0.7);}
+.quote {font-style: italic;font-weight: 500;color: #374151;opacity: 0.9;}
+#infoSection.hide {opacity: 0; transform: translateY(30px); height: 0; padding: 0; margin: 0; overflow: hidden;}
+
+/* === HABITS & PROGRESS === */
+.habit-card{
+  background:rgb(191,230,200);padding:12px 14px;border-radius:14px;margin-bottom:10px;
+  border:1px solid #9ac6a6;box-shadow:0 4px 10px rgba(0,0,0,.06);
+  transition:.3s;animation:fadeUp .5s ease;
+}
+.habit-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.top-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.title{font-weight:600;color:#1f2937}
+.actions{display:flex;gap:8px}
+.details{margin-top:8px;font-size:.95rem;color:#374151;background:#f9fafb;padding:8px;border-radius:10px}
+
+.progress-flex{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.progress-item{text-align:center;width:120px;animation:popIn .7s ease}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+svg circle{transition:stroke-dashoffset 1s ease}
+.progress-label{margin-top:8px;font-weight:600;color:#1f2937}
+
+/* === CONGRATS === */
+.congrats{
+  position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#4ade80,#16a34a);
+  color:white;padding:12px 18px;border-radius:12px;font-weight:600;
+  box-shadow:0 8px 30px rgba(16,185,129,.3);animation:floatUp 2s ease forwards;z-index:10;
+}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(20px)}
+  30%{opacity:1;transform:translateY(0)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translateY(-20px)}
+}
+
+footer{text-align:center;font-size:13px;color:#6b7280;margin-top:10px}
+@media(max-width:640px){.progress-item{width:90px}.button-group{flex-direction:column}}
+</style>
+</head>
+
+<body>
+<!-- Background Waves -->
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+
+<div id="app">
+  <!-- === LOGIN === -->
+  <div id="loginPage">
+    <h1>🌱 Daily Habit Tracker</h1>
+    <p class="intro-text">
+      Turn your small daily actions into big achievements.  
+      <br>Track your habits, see your progress, and grow every month!
+    </p>
+    <div class="features">
+      <ul>
+        <li>📆 Create your own daily habits</li>
+        <li>🔥 Build 30-day streaks</li>
+        <li>🎯 Watch your progress grow with each step</li>
+      </ul>
+    </div>
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <div class="button-group">
+      <button onclick="login()">Login</button>
+      <button class="secondary" onclick="register()">Register</button>
+    </div>
+  </div>
+
+  <!-- Info Section -->
+  <div id="infoSection">
+    <h2>Why use Daily Habit Tracker?</h2>
+    <p>🌞 Build small, consistent habits and see your growth over time.<br>
+       Every completed action moves you closer to your goals.</p>
+    <div class="info-points">
+      <div class="point">✅ Set your daily habits easily</div>
+      <div class="point">📊 Track your progress visually</div>
+      <div class="point">🏆 Earn streaks and stay consistent</div>
+    </div>
+    <p class="quote">"Discipline is choosing what you want most over what you want now."</p>
+  </div>
+
+  <!-- Main Page -->
+  <div id="mainPage" style="display:none">
+    <div class="top-row">
+      <h1 id="welcome"></h1>
+      <button class="danger" onclick="logout()">Logout</button>
+    </div>
+
+    <h2>Add New Habit</h2>
+    <input id="habitName" type="text" placeholder="e.g. Drink Water">
+    <button onclick="addHabit()">Add Habit</button>
+
+    <h2>Your Habits</h2>
+    <div id="habitList"></div>
+
+    <h2>Progress</h2>
+    <div id="progressRingsContainer" class="progress-flex"></div>
+
+    <footer>🌼 Keep growing,one habit at a time!
+        Consistency is the key!
+        <pre>Made with ❤️</pre>
+    </footer>
+  </div>
+</div>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = localStorage.getItem("currentUser") || null;
+let selectedDate = new Date().toISOString().split("T")[0];
+
+function saveUsers(){localStorage.setItem("users",JSON.stringify(users))}
+
+function register(){
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value.trim();
+  if(!u||!p) return alert("Enter username and password");
+  if(users.find(x=>x.username===u)) return alert("User exists");
+  users.push({username:u,password:p,habits:[]});
+  saveUsers();alert("Registered! Please login.");
+}
+function login(){
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value.trim();
+  const user=users.find(x=>x.username===u&&x.password===p);
+  if(!user) return alert("Invalid credentials");
+  currentUser=u;localStorage.setItem("currentUser",u);
+  document.getElementById("infoSection").classList.add("hide");
+  setTimeout(()=>showMain(),500);
+}
+function logout(){
+  currentUser=null;localStorage.removeItem("currentUser");
+  document.getElementById("mainPage").style.display="none";
+  document.getElementById("loginPage").style.display="block";
+  document.getElementById("infoSection").classList.remove("hide");
+}
+
+function addHabit(){
+  const name=document.getElementById("habitName").value.trim();
+  if(!name)return;
+  const u=users.find(x=>x.username===currentUser);
+  u.habits.push({id:Date.now(),name,completed:[],streak:0});
+  saveUsers();document.getElementById("habitName").value="";
+  renderHabits();
+}
+function deleteHabit(id){
+  const u=users.find(x=>x.username===currentUser);
+  u.habits=u.habits.filter(h=>h.id!==id);
+  saveUsers();renderHabits();
+}
+function completeHabit(id){
+  const u=users.find(x=>x.username===currentUser);
+  const h=u.habits.find(h=>h.id===id);
+  const today=new Date();
+  const yearMonth=today.getFullYear()+"-"+(today.getMonth()+1);
+  if(!h.month||h.month!==yearMonth){h.month=yearMonth;h.completed=[];h.streak=0;}
+  const exists=h.completed.includes(selectedDate);
+  if(exists){h.completed=h.completed.filter(d=>d!==selectedDate);}
+  else{h.completed.push(selectedDate);showCongrats("Great job! ✅");}
+  h.completed=h.completed.filter(d=>{
+    const t=new Date(d);
+    return t.getMonth()===today.getMonth()&&t.getFullYear()===today.getFullYear();
+  });
+  h.streak=h.completed.length;
+  saveUsers();renderHabits();
+}
+function renderHabits(){
+  const u=users.find(x=>x.username===currentUser);
+  const list=document.getElementById("habitList");list.innerHTML="";
+  if(!u.habits.length){list.innerHTML="<p>No habits yet.</p>";}
+  u.habits.forEach(h=>{
+    const done=h.completed.includes(selectedDate);
+    const card=document.createElement("div");
+    card.className="habit-card";
+    card.innerHTML=`
+      <div class="top-row">
+        <span class="title">${h.name}</span>
+        <div class="actions">
+          <button onclick="completeHabit(${h.id})" class="${done?"secondary":""}">
+            ${done?"Undo":"Done"}
+          </button>
+          <button class="danger" onclick="deleteHabit(${h.id})">✕</button>
+        </div>
+      </div>
+      <div class="details">Streak: ${h.streak} / 30 days</div>`;
+    list.appendChild(card);
+  });
+  renderProgress(u.habits);
+}
+function renderProgress(habits){
+  const c=document.getElementById("progressRingsContainer");c.innerHTML="";
+  habits.forEach(h=>{
+    const percent=Math.min((h.streak/30)*100,100);
+    const radius=40,circ=2*Math.PI*radius;
+    const offset=circ-(percent/100)*circ;
+    const doneToday=h.completed.includes(selectedDate);
+    const wrap=document.createElement("div");
+    wrap.className="progress-item";
+    wrap.innerHTML=`
+      <div style="position:relative;width:100px;height:100px;display:flex;align-items:center;justify-content:center;">
+        <svg width="100" height="100">
+          <circle stroke="#e5e7eb" stroke-width="10" fill="transparent" r="${radius}" cx="50" cy="50"></circle>
+          <circle stroke="${doneToday?"#16a34a":"#2563eb"}" stroke-width="10" fill="transparent" r="${radius}" cx="50" cy="50"
+            style="stroke-dasharray:${circ} ${circ};stroke-dashoffset:${offset};
+                   transform:rotate(-90deg);transform-origin:50% 50%;" />
+        </svg>
+        <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+                     font-weight:700;">${Math.round(percent)}%</span>
+      </div>
+      <div class="progress-label">${h.name}</div>`;
+    c.appendChild(wrap);
+  });
+}
+function showCongrats(msg){
+  const d=document.createElement("div");
+  d.className="congrats";d.textContent=msg;
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),2000);
+}
+function showMain(){
+  document.getElementById("loginPage").style.display="none";
+  document.getElementById("mainPage").style.display="block";
+  document.getElementById("welcome").textContent="Hi, "+currentUser+" 👋";
+  renderHabits();
+}
+if(currentUser)showMain();
+</script>
+</body>
+</html>
